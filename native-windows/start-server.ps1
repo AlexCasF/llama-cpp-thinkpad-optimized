@@ -44,7 +44,7 @@ if ([string]::IsNullOrWhiteSpace($LlamaServer)) {
 $profiles = @{
     # First GPU boot. Keeps the video flags that matter while preserving RAM headroom.
     safe       = @{ ctx = 65536;  ncmoe = 36; ubatch = 512;  batch = 2048; k = "q8_0"; v = "q8_0"; fa = "auto"; cacheRam = 128; mmap = $true }
-    balanced   = @{ ctx = 131072; ncmoe = 36; ubatch = 1024; batch = 1024; k = "q4_0"; v = "q4_0"; fa = "on";   cacheRam = 128; mmap = $true }
+    balanced   = @{ ctx = 65536;  ncmoe = 36; ubatch = 1024; batch = 1024; k = "q4_0"; v = "q4_0"; fa = "on";   cacheRam = 128; mmap = $true }
     speed      = @{ ctx = 65536;  ncmoe = 28; ubatch = 2048; batch = 2048; k = "q8_0"; v = "q8_0"; fa = "auto"; cacheRam = 256; mmap = $true }
     long       = @{ ctx = 262144; ncmoe = 36; ubatch = 1024; batch = 1024; k = "q4_0"; v = "q4_0"; fa = "on";   cacheRam = 128; mmap = $true }
     # Video-style experiment: no mmap can reduce page faults, but is memory-hungry.

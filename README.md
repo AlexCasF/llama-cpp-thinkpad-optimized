@@ -1,7 +1,7 @@
 # Optimized Qwen3.6 35B server for the ThinkPad Ultra 5 228V
 
 This repository runs the tested Qwen3.6 35B A3B Q4_K model on the matching
-ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 128K context.
+ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 64K daily context.
 
 ## 1. One-time setup
 
@@ -34,7 +34,7 @@ Keep the window open while using the server. Press `Ctrl+C` to stop it.
 
 The server uses the tested stable configuration:
 
-- 128K context
+- 64K context
 - q4/q4 KV cache
 - 36 CPU MoE layers
 - batch 1024 / ubatch 1024

@@ -39,7 +39,7 @@ if (-not $runtimeReady) {
     }
 }
 
-Write-Host "Starting the tested 128K q4 production profile." -ForegroundColor Green
+Write-Host "Starting the tested 64K q4 production profile." -ForegroundColor Green
 Write-Host "Keep this window open. Press Ctrl+C to stop the server." -ForegroundColor Yellow
 $launcherParams = @{
     ModelPath = $ModelPath
