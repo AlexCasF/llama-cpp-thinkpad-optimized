@@ -3,6 +3,7 @@
 
 # Generated benchmark/server logs
 results/*.log
+results/agent-benchmark-*/
 
 # Large local model artifacts
 *.gguf
