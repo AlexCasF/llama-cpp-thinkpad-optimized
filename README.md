@@ -37,17 +37,16 @@ The server uses the tested stable configuration:
 - 128K context
 - q4/q4 KV cache
 - 36 CPU MoE layers
-- batch 1024 / ubatch 1024
+- batch 2048 / ubatch 1024
 - flash attention enabled
 - mmap enabled
 
-To test the benchmark-like batch size, stop the server and run:
+The startup script now uses the benchmark-like batch size by default. To
+return to the conservative batch-1024 setting for comparison, run:
 
 ```powershell
-.\start-production.ps1 -BatchSize 2048 -FlashAttention on
+.\start-production.ps1 -BatchSize 1024
 ```
-
-Omit these options to use the stable batch-1024 default.
 
 The local API is:
 
