@@ -41,12 +41,6 @@ The server uses the tested stable configuration:
 - flash attention enabled
 - mmap enabled
 
-To test the benchmark-like batch size, stop the server and run:
-
-```powershell
-.\start-production.ps1 -BatchSize 2048 -FlashAttention on
-```
-
 The local API is:
 
 ```text
@@ -69,5 +63,4 @@ If the model is stored somewhere else, pass its path explicitly:
 ## More detail
 
 - [Complete Windows/Kali/Pi tutorial](docs/llama_cpp_pi_q4_128k_setup.html)
-- [Benchmark plan and measured results](results/benchmark-q4-128k-2026-07-14.md)
 - [Original tutorial](docs/ollama_pi_kali_q4_256k_setup_final.html)

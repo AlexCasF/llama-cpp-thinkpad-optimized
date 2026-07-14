@@ -1,9 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$ModelPath = (Join-Path $env:USERPROFILE "llama-models\Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-ggml-model-Q4_K.gguf"),
-    [int]$Port = 11434,
-    [int]$BatchSize = -1,
-    [string]$FlashAttention = ""
+    [int]$Port = 11434
 )
 
 $ErrorActionPreference = "Stop"
@@ -33,7 +31,7 @@ $runtimeReady = Get-ChildItem -LiteralPath $runtimeRoot -Filter "llama-server.ex
 
 if (-not $runtimeReady) {
     Write-Host "Pinned SYCL runtime not found; installing it now..." -ForegroundColor Cyan
-    & $setup -BuildTag "b9986" -ModelPath $ModelPath -SkipModelExport
+    & $setup -BuildTag "b9986" -ModelPath $ModelPath
     if ($LASTEXITCODE -ne 0) {
         throw "The llama.cpp SYCL runtime setup failed with exit code $LASTEXITCODE."
     }
@@ -41,16 +39,5 @@ if (-not $runtimeReady) {
 
 Write-Host "Starting the tested 64K q4 production profile." -ForegroundColor Green
 Write-Host "Keep this window open. Press Ctrl+C to stop the server." -ForegroundColor Yellow
-$launcherParams = @{
-    ModelPath = $ModelPath
-    Profile = "balanced"
-    Port = $Port
-}
-if ($BatchSize -gt 0) {
-    $launcherParams.BatchSize = $BatchSize
-}
-if (-not [string]::IsNullOrWhiteSpace($FlashAttention)) {
-    $launcherParams.FlashAttention = $FlashAttention
-}
-& $launcher @launcherParams
+& $launcher -ModelPath $ModelPath -Port $Port
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

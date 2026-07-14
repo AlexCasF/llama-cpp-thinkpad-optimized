@@ -1,9 +1,0 @@
-# Save as C:\Users\alexc\.wslconfig, then run: wsl --shutdown
-# 26 GB leaves about 6 GB outside WSL and gives the model headroom based on
-# an observed native llama-server peak of roughly 22.9 GB. This is not enough
-# for two normal VMware guests; use native Windows when those guests are active.
-[wsl2]
-memory=26GB
-processors=8
-swap=4GB
-localhostForwarding=true

@@ -1,10 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$BuildTag = "b9986",
-    [string]$Model = "huihui_ai/Qwen3.6-abliterated:35b",
-    [string]$ModelPath = "",
-    [string]$ModelDirectory = (Join-Path $env:USERPROFILE "llama-models"),
-    [switch]$SkipModelExport
+    [string]$ModelPath = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -54,9 +51,6 @@ if ($ModelPath) {
     if (-not (Test-Path -LiteralPath $ModelPath -PathType Leaf)) {
         throw "Model does not exist: $ModelPath"
     }
-} elseif (-not $SkipModelExport) {
-    & (Join-Path $PSScriptRoot "..\scripts\export-ollama-model.ps1") -Model $Model -DestinationDirectory $ModelDirectory
-    $ModelPath = Join-Path $ModelDirectory "qwen3.6-35b-abliterated-q4_k_m.gguf"
 }
 
 Write-Host ""
@@ -68,8 +62,7 @@ Write-Host ""
 Write-Host "Runtime: $server"
 if ($ModelPath) {
     Write-Host "Model:   $ModelPath"
-    Write-Host "Start:   .\native-windows\start-server.ps1 -Profile safe"
-    Write-Host "Tune:    .\native-windows\tune.ps1"
+    Write-Host "Start:   .\start-production.ps1"
 } else {
-    Write-Host "Model export skipped. Pass -ModelPath when starting the server."
+    Write-Host "Model setup skipped. Pass -ModelPath when starting the server."
 }
