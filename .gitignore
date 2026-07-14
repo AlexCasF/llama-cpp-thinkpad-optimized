@@ -1,0 +1,9 @@
+# Local secrets and machine-specific overrides
+.env
+
+# Generated benchmark/server logs
+results/*.log
+
+# Large local model artifacts
+*.gguf
+*.gguf.part

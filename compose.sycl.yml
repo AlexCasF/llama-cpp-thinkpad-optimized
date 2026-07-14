@@ -1,0 +1,33 @@
+name: qwen36-intel-sycl
+services:
+  llama:
+    build:
+      context: .
+      dockerfile: Dockerfile.sycl
+    image: local/llama-qwen36:intel-sycl
+    env_file:
+      - ${PROFILE_FILE:-profiles/balanced.env}
+    environment:
+      LLAMA_BACKEND: sycl-wsl
+      MODEL_PATH: /models/${MODEL_FILE}
+      MODEL_ALIAS: ${MODEL_ALIAS:-huihui_ai/Qwen3.6-abliterated:35b}
+      LLAMA_PORT: "8080"
+      ONEAPI_DEVICE_SELECTOR: ${ONEAPI_DEVICE_SELECTOR:-level_zero:gpu}
+      ZES_ENABLE_SYSMAN: "1"
+    ports:
+      - "${HOST_PORT:-8080}:8080"
+    devices:
+      - /dev/dxg:/dev/dxg
+    volumes:
+      - /usr/lib/wsl:/usr/lib/wsl:ro
+      - ${MODEL_DIR}:/models:ro
+      - ./results:/results
+    ipc: host
+    cap_add:
+      - IPC_LOCK
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    shm_size: 1gb
+    restart: unless-stopped
