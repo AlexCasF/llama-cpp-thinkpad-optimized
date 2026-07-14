@@ -2,8 +2,8 @@
 param(
     [string]$ModelPath = (Join-Path $env:USERPROFILE "llama-models\Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-ggml-model-Q4_K.gguf"),
     [int]$Port = 11434,
-    [int]$BatchSize = 2048,
-    [string]$FlashAttention = "on"
+    [int]$BatchSize = -1,
+    [string]$FlashAttention = ""
 )
 
 $ErrorActionPreference = "Stop"

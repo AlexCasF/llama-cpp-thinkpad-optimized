@@ -22,7 +22,7 @@
     </div>
   </header>
 
-  <div class="warning"><strong>Hardware reality:</strong> the tested Q4_K GGUF is 21.7 GB and the Arc iGPU uses shared system memory. This guide uses the current test profile: 128K context, q4/q4 KV cache, mmap on, CPU MoE 36, logical batch 2048, physical ubatch 1024, and flash attention on. Keep VMware guests within their normal allocations and avoid mlock/no-mmap.</div>
+  <div class="warning"><strong>Hardware reality:</strong> the tested Q4_K GGUF is 21.7 GB and the Arc iGPU uses shared system memory. This guide uses the measured stable profile: 128K context, q4/q4 KV cache, mmap on, CPU MoE 36, logical batch 1024, physical ubatch 1024, and flash attention on. Keep VMware guests within their normal allocations and avoid mlock/no-mmap.</div>
   <div class="safe"><strong>Authorized security use:</strong> the agent prompt below is deliberately scoped to systems you own, labs, CTFs, or targets for which you have explicit permission. “Uncensored” is not used as an instruction to bypass safeguards.</div>
 
   <nav><strong>Contents</strong><ol>
