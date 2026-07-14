@@ -1,7 +1,9 @@
 [CmdletBinding()]
 param(
     [string]$ModelPath = (Join-Path $env:USERPROFILE "llama-models\Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-ggml-model-Q4_K.gguf"),
-    [int]$Port = 11434
+    [int]$Port = 11434,
+    [int]$BatchSize = -1,
+    [string]$FlashAttention = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -39,5 +41,16 @@ if (-not $runtimeReady) {
 
 Write-Host "Starting the tested 128K q4 production profile." -ForegroundColor Green
 Write-Host "Keep this window open. Press Ctrl+C to stop the server." -ForegroundColor Yellow
-& $launcher -ModelPath $ModelPath -Profile balanced -Port $Port
+$launcherArgs = @(
+    "-ModelPath", $ModelPath,
+    "-Profile", "balanced",
+    "-Port", "$Port"
+)
+if ($BatchSize -gt 0) {
+    $launcherArgs += @("-BatchSize", "$BatchSize")
+}
+if (-not [string]::IsNullOrWhiteSpace($FlashAttention)) {
+    $launcherArgs += @("-FlashAttention", $FlashAttention)
+}
+& $launcher @launcherArgs
 if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }

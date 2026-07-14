@@ -9,7 +9,10 @@ param(
     [int]$NCPUMOE = -1,
     [int]$Threads = -1,
     [int]$ThreadsBatch = -1,
+    [int]$BatchSize = -1,
     [int]$UBatch = -1,
+    [ValidateSet("on", "off", "auto")]
+    [string]$FlashAttention = "",
     [switch]$NoMmap,
     [switch]$Mlock
 )
@@ -52,7 +55,9 @@ $p = $profiles[$Profile]
 $nCpuMoe = if ($NCPUMOE -ge 0) { $NCPUMOE } else { $p.ncmoe }
 $nThreads = if ($Threads -ge 0) { $Threads } else { 6 }
 $nThreadsBatch = if ($ThreadsBatch -ge 0) { $ThreadsBatch } else { 7 }
+$nBatch = if ($BatchSize -gt 0) { $BatchSize } else { $p.batch }
 $nUbatch = if ($UBatch -ge 0) { $UBatch } else { $p.ubatch }
+$flashAttention = if ([string]::IsNullOrWhiteSpace($FlashAttention)) { $p.fa } else { $FlashAttention }
 $useMmap = $p.mmap -and (-not $NoMmap)
 
 # The official Windows SYCL package uses Level Zero for Intel Arc.
@@ -69,11 +74,11 @@ $args = @(
     "--n-cpu-moe", "$nCpuMoe",
     "--threads", "$nThreads",
     "--threads-batch", "$nThreadsBatch",
-    "--batch-size", "$($p.batch)",
+    "--batch-size", "$nBatch",
     "--ubatch-size", "$nUbatch",
     "--cache-type-k", "$($p.k)",
     "--cache-type-v", "$($p.v)",
-    "--flash-attn", "$($p.fa)",
+    "--flash-attn", "$flashAttention",
     "--parallel", "1",
     "--cache-ram", "$($p.cacheRam)",
     "--cache-reuse", "256",
@@ -101,10 +106,10 @@ Write-Host "  context:      $($p.ctx)"
 Write-Host "  GPU layers:   99"
 Write-Host "  CPU MoE:      $nCpuMoe of 40 layers"
 Write-Host "  threads:      $nThreads decode / $nThreadsBatch batch"
+Write-Host "  logical batch:   $nBatch"
 Write-Host "  physical ubatch: $nUbatch"
-Write-Host "  logical batch:   $($p.batch)"
 Write-Host "  KV cache:     $($p.k) / $($p.v)"
-Write-Host "  flash attention: $($p.fa)"
+Write-Host "  flash attention: $flashAttention"
 Write-Host "  mmap/mlock:   $useMmap / $Mlock"
 
 & $LlamaServer @args

@@ -41,6 +41,14 @@ The server uses the tested stable configuration:
 - flash attention enabled
 - mmap enabled
 
+To test the benchmark-like batch size, stop the server and run:
+
+```powershell
+.\start-production.ps1 -BatchSize 2048 -FlashAttention on
+```
+
+Omit these options to use the stable batch-1024 default.
+
 The local API is:
 
 ```text
