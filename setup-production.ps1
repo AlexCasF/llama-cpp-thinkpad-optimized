@@ -31,8 +31,11 @@ if (Test-Path -LiteralPath $modelPath -PathType Leaf) {
 }
 
 if (-not $validModel) {
-    if (Test-Path -LiteralPath $modelPath -PathType Leaf -and (Get-Item -LiteralPath $modelPath).Length -ge $expectedSize) {
-        Remove-Item -LiteralPath $modelPath -Force
+    if (Test-Path -LiteralPath $modelPath -PathType Leaf) {
+        $existingModel = Get-Item -LiteralPath $modelPath
+        if ($existingModel.Length -ge $expectedSize) {
+            Remove-Item -LiteralPath $modelPath -Force
+        }
     }
     Write-Host "Downloading the verified 21.7 GB Q4_K model. This is resumable and may take a while..." -ForegroundColor Cyan
     $curlArgs = @(
