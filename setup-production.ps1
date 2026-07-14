@@ -7,7 +7,7 @@ param(
 $ErrorActionPreference = "Stop"
 $modelFile = "Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-ggml-model-Q4_K.gguf"
 $modelPath = Join-Path $ModelDirectory $modelFile
-$modelUrl = "https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF/resolve/main/$modelFile?download=true"
+$modelUrl = "https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF/resolve/main/${modelFile}?download=true"
 $expectedSize = [int64]21712410016
 $expectedSha256 = "a20002fdac5d529946ef2ab3a4ad5da953e77ca7e30dcc6ca9b6b738e0c7ff4d"
 
