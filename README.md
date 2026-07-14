@@ -1,7 +1,7 @@
 # Optimized Qwen3.6 35B server for the ThinkPad Ultra 5 228V
 
 This repository runs the tested Qwen3.6 35B A3B Q4_K model on the matching
-ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 128K context.
+ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 64K daily context.
 
 ## 1. One-time setup
 
@@ -34,18 +34,12 @@ Keep the window open while using the server. Press `Ctrl+C` to stop it.
 
 The server uses the tested stable configuration:
 
-- 128K context
+- 64K context
 - q4/q4 KV cache
 - 36 CPU MoE layers
 - batch 1024 / ubatch 1024
 - flash attention enabled
 - mmap enabled
-
-To test the benchmark-like batch size, stop the server and run:
-
-```powershell
-.\start-production.ps1 -BatchSize 2048 -FlashAttention on
-```
 
 The local API is:
 
@@ -69,5 +63,4 @@ If the model is stored somewhere else, pass its path explicitly:
 ## More detail
 
 - [Complete Windows/Kali/Pi tutorial](docs/llama_cpp_pi_q4_128k_setup.html)
-- [Benchmark plan and measured results](results/benchmark-q4-128k-2026-07-14.md)
 - [Original tutorial](docs/ollama_pi_kali_q4_256k_setup_final.html)

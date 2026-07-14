@@ -62,7 +62,7 @@ if (-not $validModel) {
 }
 
 Write-Host "Model verified: $modelPath" -ForegroundColor Green
-& (Join-Path $PSScriptRoot "native-windows\setup.ps1") -BuildTag $BuildTag -ModelPath $modelPath -SkipModelExport
+& (Join-Path $PSScriptRoot "native-windows\setup.ps1") -BuildTag $BuildTag -ModelPath $modelPath
 if ($LASTEXITCODE -ne 0) {
     throw "llama.cpp runtime setup failed with exit code $LASTEXITCODE."
 }

@@ -8,3 +8,16 @@ results/agent-benchmark-*/
 # Large local model artifacts
 *.gguf
 *.gguf.part
+
+# Optional development and platform variants excluded from the colleague setup
+/.env.example
+/.wslconfig.example
+/Dockerfile.*
+/compose.*
+/docker/
+/profiles/
+/results/
+/scripts/
+/youtube/
+/SOURCES.md
+/native-windows/tune.ps1
