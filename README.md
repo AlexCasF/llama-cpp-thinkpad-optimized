@@ -87,4 +87,3 @@ If the model is stored somewhere else, pass its path explicitly:
 ## More detail
 
 - [Complete Windows/Kali/Pi APEX 64K tutorial](docs/llama_cpp_pi_q4_64k_setup.html)
-- [Legacy Ollama/Pi 64K tutorial](docs/ollama_pi_kali_q4_64k_setup_final.html)
