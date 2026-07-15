@@ -5,11 +5,11 @@ param(
 )
 
 $ErrorActionPreference = "Stop"
-$modelFile = "Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-ggml-model-Q4_K.gguf"
+$modelFile = "Hermes3.6-35B-A3B-Uncensored-Genesis-APEX-Compact.gguf"
 $modelPath = Join-Path $ModelDirectory $modelFile
-$modelUrl = "https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF/resolve/main/${modelFile}?download=true"
-$expectedSize = [int64]21712410016
-$expectedSha256 = "a20002fdac5d529946ef2ab3a4ad5da953e77ca7e30dcc6ca9b6b738e0c7ff4d"
+$modelUrl = "https://huggingface.co/LuffyTheFox/Qwen3.6-35B-A3B-Uncensored-Genesis-Hermes-GGUF/resolve/main/${modelFile}?download=true"
+$expectedSize = [int64]17293088896
+$expectedSha256 = "8750511cb4d35f997432960bb83e8ad9728650b672b47bca2b17738b4f4f5922"
 
 New-Item -ItemType Directory -Force -Path $ModelDirectory | Out-Null
 
@@ -37,7 +37,7 @@ if (-not $validModel) {
             Remove-Item -LiteralPath $modelPath -Force
         }
     }
-    Write-Host "Downloading the verified 21.7 GB Q4_K model. This is resumable and may take a while..." -ForegroundColor Cyan
+    Write-Host "Downloading the verified 17.3 GB APEX Compact model. This is resumable and may take a while..." -ForegroundColor Cyan
     $curlArgs = @(
         "-L", "--fail", "--retry", "5", "--retry-delay", "5",
         "-o", $modelPath

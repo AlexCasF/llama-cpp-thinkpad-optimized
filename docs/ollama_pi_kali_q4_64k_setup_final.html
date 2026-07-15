@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Windows Ollama → Kali Pi Agent — Q4 256K Setup</title>
+  <title>Windows Ollama → Kali Pi Agent — Legacy Q4 64K Setup</title>
   <style>
     :root {
       --bg: #0b1020;
@@ -190,7 +190,7 @@
 <div class="wrap">
   <header>
     <h1>Windows Ollama → Kali Pi Agent</h1>
-    <p><span class="badge" style="margin-left:0">Q4_K · 256K context</span></p>
+    <p><span class="badge" style="margin-left:0">Legacy Ollama Q4_K · 64K context</span></p>
     <p class="lede">A step-by-step setup for serving a Hugging Face Qwen 3.6 MoE model from a Windows host, exposing Ollama to a VMware LAN, connecting Pi from Kali, and installing the ChatKali skill.</p>
     <div class="flow">
       <div><strong>Windows host</strong>Ollama API on TCP 11434<br>Model: <code>qwen3.6-35b</code></div>
@@ -200,7 +200,7 @@
   </header>
 
   <div class="warning">
-    <strong>Hardware reality:</strong> this guide uses the official <code>Q4_K</code> GGUF (21.7 GB) and configures a 256K context window. The model weights plus the large KV cache can consume substantial memory. If loading fails or Windows begins swapping heavily, recreate the same Q4 model with a 128K or 64K context window.
+    <strong>Legacy reference:</strong> this guide uses the official <code>Q4_K</code> GGUF (21.7 GB) through Ollama and configures a 64K context window. The current tested setup uses the smaller Hermes APEX Compact GGUF with native llama.cpp; see the <a href="llama_cpp_pi_q4_64k_setup.html">current APEX 64K tutorial</a>. The legacy Ollama model can still consume substantial shared memory.
   </div>
 
   <div class="safe">
@@ -212,7 +212,7 @@
     <ol>
       <li><a href="#s1">Install Ollama on Windows</a></li>
       <li><a href="#s2">Pull the Hugging Face GGUF</a></li>
-      <li><a href="#s3">Create the 256K model</a></li>
+      <li><a href="#s3">Create the 64K model</a></li>
       <li><a href="#s3a">Expose and serve Ollama</a></li>
       <li><a href="#s4">Start Kali</a></li>
       <li><a href="#s5">Find the Windows host IP</a></li>
@@ -245,8 +245,8 @@ ollama list</code></pre></div>
 
   <section class="step" id="s3">
     <div class="num">3</div>
-    <h2>Create the 256K version as <code>qwen3.6-35b</code> <span class="badge">Windows PowerShell</span></h2>
-    <p>This creates a temporary Ollama Modelfile that references the downloaded GGUF and sets <code>num_ctx</code> to 262,144 tokens.</p>
+    <h2>Create the 64K version as <code>qwen3.6-35b</code> <span class="badge">Windows PowerShell</span></h2>
+    <p>This creates a temporary Ollama Modelfile that references the downloaded GGUF and sets <code>num_ctx</code> to 65,536 tokens.</p>
     <div class="codebox"><div class="codehead"><span>PowerShell — create custom model</span><button class="copy">Copy</button></div><pre><code>$SOURCE_MODEL = "hf.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-abliterated-MTP-GGUF:Q4_K"
 $MODEL_NAME = "qwen3.6-35b"
 $MODELFILE = Join-Path $env:TEMP "Modelfile-$MODEL_NAME"
@@ -254,14 +254,14 @@ $MODELFILE = Join-Path $env:TEMP "Modelfile-$MODEL_NAME"
 @"
 FROM $SOURCE_MODEL
 
-PARAMETER num_ctx 262144
+PARAMETER num_ctx 65536
 "@ | Set-Content -Encoding UTF8 $MODELFILE
 
 ollama create $MODEL_NAME -f $MODELFILE
 ollama show --modelfile $MODEL_NAME
 ollama list</code></pre></div>
     <p>In the displayed Modelfile, confirm that you see:</p>
-    <div class="codebox"><div class="codehead"><span>Expected parameter</span><button class="copy">Copy</button></div><pre><code>PARAMETER num_ctx 262144</code></pre></div>
+    <div class="codebox"><div class="codehead"><span>Expected parameter</span><button class="copy">Copy</button></div><pre><code>PARAMETER num_ctx 65536</code></pre></div>
   </section>
 
   <section class="step" id="s3a">
@@ -372,10 +372,10 @@ cat &gt; "$HOME/.pi/agent/models.json" &lt;&lt;'EOF'
       "models": [
         {
           "id": "qwen3.6-35b",
-          "name": "Qwen 3.6 35B A3B — Windows Ollama — Q4_K — 256K",
+          "name": "Qwen 3.6 35B A3B — Windows Ollama — Q4_K — 64K",
           "reasoning": false,
           "input": ["text"],
-          "contextWindow": 262144,
+          "contextWindow": 65536,
           "maxTokens": 8192,
           "cost": {
             "input": 0,
@@ -429,7 +429,7 @@ python3 -m json.tool "$HOME/.pi/agent/settings.json" &gt;/dev/null \
 cd "$HOME/projects/authorized-security-lab"
 
 pi</code></pre></div>
-    <p>Inside Pi, run <code>/model</code> and confirm that the selected provider/model is <code>ollama-host / qwen3.6-35b</code>.</p>
+    <p>Inside Pi, run <code>/model</code> and confirm that the selected provider/model is <code>ollama-host / qwen3.6-35b</code> with a 64K context window.</p>
   </section>
 
   <section class="step" id="s9">
@@ -528,17 +528,17 @@ curl -v "http://${WINDOWS_HOST_IP}:11434/api/tags"</code></pre></div>
 
     <h3>Model fails to load or Windows starts swapping</h3>
     <p>Keep the same downloaded GGUF but recreate the alias with a smaller context:</p>
-    <div class="codebox"><div class="codehead"><span>Windows — 128K fallback</span><button class="copy">Copy</button></div><pre><code>$SOURCE_MODEL = "hf.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-abliterated-MTP-GGUF:Q4_K"
+    <div class="codebox"><div class="codehead"><span>Windows — 32K fallback</span><button class="copy">Copy</button></div><pre><code>$SOURCE_MODEL = "hf.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-abliterated-MTP-GGUF:Q4_K"
 $MODELFILE = Join-Path $env:TEMP "Modelfile-qwen3.6-35b"
 
 @"
 FROM $SOURCE_MODEL
 
-PARAMETER num_ctx 131072
+PARAMETER num_ctx 32768
 "@ | Set-Content -Encoding UTF8 $MODELFILE
 
 ollama create qwen3.6-35b -f $MODELFILE</code></pre></div>
-    <p>For 64K, use <code>PARAMETER num_ctx 65536</code>. Update Pi’s <code>contextWindow</code> to the same value.</p>
+    <p>For this guide’s 64K profile, use <code>PARAMETER num_ctx 65536</code>. Update Pi’s <code>contextWindow</code> to the same value.</p>
 
     <h3>Requests still stop early</h3>
     <p>Confirm that <code>settings.json</code> includes <code>"httpIdleTimeoutMs": 86400000</code> and <code>"timeoutMs": 86400000</code>, then restart Pi. On Windows, confirm that <code>OLLAMA_LOAD_TIMEOUT</code> and <code>OLLAMA_KEEP_ALIVE</code> are both set to <code>24h</code> in a newly opened PowerShell window.</p>
