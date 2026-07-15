@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
-  <title>Windows llama.cpp → Kali Pi Agent — Q4 128K Setup</title>
+  <title>Windows llama.cpp → Kali Pi Agent — APEX Compact 64K Setup</title>
   <style>
     :root{--bg:#0b1020;--panel:#121a2d;--panel2:#18233a;--text:#e8eefc;--muted:#a9b6cf;--line:#2b3a58;--accent:#75e6b1;--blue:#72b7ff;--warn:#ffd580;--code:#07101d}
     *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 10% 0%,rgba(114,183,255,.1),transparent 30rem),radial-gradient(circle at 90% 10%,rgba(117,230,177,.08),transparent 28rem),var(--bg);color:var(--text);font:16px/1.58 Inter,ui-sans-serif,system-ui,-apple-system,Segoe UI,sans-serif}.wrap{max-width:1060px;margin:0 auto;padding:34px 22px 72px}header,.step,nav,.sources{border:1px solid var(--line);background:rgba(18,26,45,.94);border-radius:18px;box-shadow:0 7px 22px rgba(0,0,0,.13)}header{padding:30px;background:linear-gradient(145deg,rgba(24,35,58,.98),rgba(18,26,45,.93));box-shadow:0 12px 32px rgba(0,0,0,.25)}h1{font-size:clamp(2rem,5vw,3.6rem);line-height:1.05;margin:0 0 14px;letter-spacing:-.04em}h2{font-size:1.45rem;margin:0 0 10px}h3{font-size:1.06rem;margin:22px 0 8px;color:#dfe8fb}p{margin:8px 0 14px}a{color:var(--blue)}code:not(pre code){background:rgba(114,183,255,.1);border:1px solid rgba(114,183,255,.18);padding:.1rem .35rem;border-radius:6px;font-size:.92em}.lede{color:var(--muted);max-width:850px;font-size:1.05rem}.badge{display:inline-block;margin-left:8px;padding:2px 8px;border-radius:99px;border:1px solid var(--line);color:var(--muted);font-size:.74rem;vertical-align:middle;letter-spacing:.04em;text-transform:uppercase}.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin-top:22px}.flow div,.mini{background:rgba(7,16,29,.52);border:1px solid var(--line);border-radius:14px;padding:14px}.flow strong{display:block;color:var(--accent);margin-bottom:4px}nav{margin:22px 0;padding:18px 20px}nav ol{columns:2;margin:8px 0 0;padding-left:24px}nav li{margin:5px 0;break-inside:avoid}.step{position:relative;margin:20px 0;padding:24px 24px 24px 82px}.num{position:absolute;top:23px;left:22px;width:42px;height:42px;display:grid;place-items:center;border-radius:12px;background:linear-gradient(145deg,var(--blue),var(--accent));color:#08101d;font-weight:900;font-size:1.05rem}.note,.warning,.safe{margin:14px 0;padding:13px 15px;border-radius:11px;border-left:4px solid var(--blue);background:rgba(114,183,255,.08)}.warning{border-left-color:var(--warn);background:rgba(255,213,128,.08)}.safe{border-left-color:var(--accent);background:rgba(117,230,177,.08)}.codebox{position:relative;margin:12px 0 18px;border:1px solid var(--line);border-radius:13px;overflow:hidden;background:var(--code)}.codehead{min-height:40px;display:flex;align-items:center;justify-content:space-between;gap:12px;padding:6px 7px 6px 13px;border-bottom:1px solid var(--line);color:var(--muted);background:rgba(24,35,58,.72);font-size:.82rem}pre{margin:0;padding:17px;overflow-x:auto;color:#dce9ff;tab-size:2;font:13.5px/1.56 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;white-space:pre}button.copy{border:1px solid var(--line);color:var(--text);background:var(--panel2);border-radius:9px;padding:6px 10px;cursor:pointer;font:inherit}.sources{margin-top:26px;padding:22px}.sources li{margin:8px 0}footer{color:var(--muted);text-align:center;margin-top:26px;font-size:.9rem}@media(max-width:720px){.flow{grid-template-columns:1fr}nav ol{columns:1}.step{padding:76px 18px 20px}.num{top:18px;left:18px}}@media print{body{background:#fff;color:#111}.wrap{max-width:none;padding:0}header,.step,nav,.sources{box-shadow:none;break-inside:avoid}pre{color:#111;white-space:pre-wrap}button{display:none!important}a{color:#111;text-decoration:underline}}
@@ -13,8 +13,8 @@
 <div class="wrap">
   <header>
     <h1>Windows llama.cpp → Kali Pi Agent</h1>
-    <p><span class="badge" style="margin-left:0">Q4_K · 128K context</span></p>
-    <p class="lede">A reproducible setup for the verified Qwen 3.6 35B A3B Q4_K GGUF on the matching ThinkPad Ultra 5 228V / Arc 130V / 32 GB machine, with a native Windows llama.cpp server exposed to Pi inside Kali.</p>
+    <p><span class="badge" style="margin-left:0">APEX Compact · 64K context</span></p>
+    <p class="lede">A reproducible setup for the verified Qwen 3.6 35B A3B Hermes APEX Compact GGUF on the matching ThinkPad Ultra 5 228V / Arc 130V / 32 GB machine, with a native Windows llama.cpp server exposed to Pi inside Kali.</p>
     <div class="flow">
       <div><strong>Windows host</strong>Native SYCL llama.cpp API on TCP 11434<br>Model alias: <code>qwen3.6-35b</code></div>
       <div><strong>VMware LAN</strong>Private host ↔ VM network<br>Example host: <code>10.10.10.1</code></div>
@@ -22,7 +22,7 @@
     </div>
   </header>
 
-  <div class="warning"><strong>Hardware reality:</strong> the tested Q4_K GGUF is 21.7 GB and the Arc iGPU uses shared system memory. This guide uses the measured stable profile: 128K context, q4/q4 KV cache, mmap on, CPU MoE 36, logical batch 1024, physical ubatch 1024, and flash attention on. Keep VMware guests within their normal allocations and avoid mlock/no-mmap.</div>
+  <div class="warning"><strong>Hardware reality:</strong> the tested APEX Compact GGUF is 17.3 GB and the Arc iGPU uses shared system memory. This guide uses the measured stable profile: 64K context, q4/q4 KV cache, mmap on, CPU MoE 36, logical batch 1024, physical ubatch 1024, and flash attention auto. Keep VMware guests within their normal allocations and avoid mlock/no-mmap.</div>
   <div class="safe"><strong>Authorized security use:</strong> the agent prompt below is deliberately scoped to systems you own, labs, CTFs, or targets for which you have explicit permission. “Uncensored” is not used as an instruction to bypass safeguards.</div>
 
   <nav><strong>Contents</strong><ol>
@@ -36,14 +36,21 @@ cd llama-cpp-thinkpad-optimized</code></pre></div>
   </section>
 
   <section class="step" id="s2"><div class="num">2</div><h2>Download and verify the exact model <span class="badge">Windows</span></h2>
-    <p>Run the one-time setup script. It downloads the exact Q4_K artifact from the <a href="https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF">Hugging Face model repository</a>, resumes interrupted downloads, verifies SHA-256, and installs the pinned official SYCL runtime.</p>
+    <p>Run the one-time setup script. It downloads the exact APEX Compact artifact from the <a href="https://huggingface.co/LuffyTheFox/Qwen3.6-35B-A3B-Uncensored-Genesis-Hermes-GGUF">Hugging Face model repository</a>, resumes interrupted downloads, verifies SHA-256, and installs the pinned official SYCL runtime.</p>
     <div class="codebox"><div class="codehead"><span>PowerShell — one-time setup</span><button class="copy">Copy</button></div><pre><code>Set-ExecutionPolicy -Scope Process Bypass
 .\setup-production.ps1</code></pre></div>
-    <p>Or double-click <code>setup-production.cmd</code>. Ensure at least 25 GB of free disk space is available. This step may take a long time; it is only performed once.</p>
+    <p>Or double-click <code>setup-production.cmd</code>. Ensure at least 22 GB of free disk space is available. This step may take a long time; it is only performed once.</p>
   </section>
 
   <section class="step" id="s3"><div class="num">3</div><h2>Start the one-click llama.cpp server <span class="badge">Windows</span></h2>
-    <p>The server listens on port 11434 so the Pi configuration below remains unchanged. Stop Ollama first if it is already listening on that port.</p>
+    <p>For maximum inference speed, connect the charger and run the following once from <strong>PowerShell as Administrator</strong>. This sets the AC processor energy-performance preference to maximum performance for all processor efficiency classes.</p>
+    <div class="codebox"><div class="codehead"><span>Administrator PowerShell — performance mode</span><button class="copy">Copy</button></div><pre><code>$processor = "54533251-82be-4824-96c1-47b60b740d00"
+powercfg /setacvalueindex SCHEME_CURRENT $processor "36687f9e-e3a5-4dbf-b1dc-15eb381c6863" 0
+powercfg /setacvalueindex SCHEME_CURRENT $processor "36687f9e-e3a5-4dbf-b1dc-15eb381c6864" 0
+powercfg /setacvalueindex SCHEME_CURRENT $processor "36687f9e-e3a5-4dbf-b1dc-15eb381c6865" 0
+powercfg /setactive SCHEME_CURRENT</code></pre></div>
+    <p>Also select <strong>Performance mode</strong> in Lenovo Vantage if available. The command does not directly control the ThinkPad fan curve. To restore normal behavior, select <strong>Recommended</strong> or <strong>Balanced</strong> in Windows Settings → System → Power &amp; battery.</p>
+    <p>The server listens on port 11434. Stop Ollama or another llama-server process first if it is already listening on that port.</p>
     <div class="codebox"><div class="codehead"><span>PowerShell — start production</span><button class="copy">Copy</button></div><pre><code>Set-ExecutionPolicy -Scope Process Bypass
 .\start-production.ps1</code></pre></div>
     <p>Or double-click <code>start-production.cmd</code>. Keep the window open. The launcher uses the benchmarked stable configuration and exposes an OpenAI-compatible API at <code>http://WINDOWS_HOST_IP:11434/v1</code>.</p>
@@ -115,10 +122,10 @@ pi --version</code></pre></div>
 cat &gt; "$HOME/.pi/agent/models.json" &lt;&lt;'EOF'
 {
   "providers": {
-    "ollama-host": {
+    "llama-cpp-host": {
       "baseUrl": "http://10.10.10.1:11434/v1",
       "api": "openai-completions",
-      "apiKey": "ollama",
+      "apiKey": "none",
       "compat": {
         "supportsDeveloperRole": false,
         "supportsReasoningEffort": false
@@ -126,10 +133,10 @@ cat &gt; "$HOME/.pi/agent/models.json" &lt;&lt;'EOF'
       "models": [
         {
           "id": "qwen3.6-35b",
-          "name": "Qwen 3.6 35B A3B — Windows Ollama — Q4_K — 128K",
+          "name": "Qwen 3.6 35B A3B Hermes APEX Compact — Windows llama.cpp — 64K",
           "reasoning": false,
           "input": ["text"],
-          "contextWindow": 131072,
+          "contextWindow": 65536,
           "maxTokens": 8192,
           "cost": {
             "input": 0,
@@ -146,7 +153,7 @@ EOF</code></pre></div>
 
     <div class="codebox"><div class="codehead"><span>Kali — overwrite settings.json</span><button class="copy">Copy</button></div><pre><code>cat &gt; "$HOME/.pi/agent/settings.json" &lt;&lt;'EOF'
 {
-  "defaultProvider": "ollama-host",
+  "defaultProvider": "llama-cpp-host",
   "defaultModel": "qwen3.6-35b",
   "enableSkillCommands": true,
   "httpIdleTimeoutMs": 86400000,
@@ -183,7 +190,7 @@ python3 -m json.tool "$HOME/.pi/agent/settings.json" &gt;/dev/null \
 cd "$HOME/projects/authorized-security-lab"
 
 pi</code></pre></div>
-    <p>Inside Pi, run <code>/model</code> and confirm that the selected provider/model is <code>ollama-host / qwen3.6-35b</code>.</p>
+    <p>Inside Pi, run <code>/model</code> and confirm that the selected provider/model is <code>llama-cpp-host / qwen3.6-35b</code>.</p>
   </section>
 
   <section class="step" id="s9">
@@ -278,7 +285,8 @@ curl -v "http://${WINDOWS_HOST_IP}:11434/v1/models"</code></pre></div>
 
   <section class="sources"><h2>Primary sources</h2><ul>
     <li><a href="https://github.com/AlexCasF/llama-cpp-thinkpad-optimized">This reproducible setup repository</a></li>
-    <li><a href="https://huggingface.co/huihui-ai/Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-MTP-GGUF">Exact Q4_K GGUF repository</a></li>
+     <li><a href="https://huggingface.co/LuffyTheFox/Qwen3.6-35B-A3B-Uncensored-Genesis-Hermes-GGUF">Exact Hermes APEX Compact GGUF repository</a></li>
+     <li><a href="https://github.com/localai-org/apex-quant">APEX MoE-aware quantization</a></li>
     <li><a href="https://github.com/ggml-org/llama.cpp">llama.cpp</a></li>
     <li><a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/quickstart.md">Pi quickstart</a></li>
     <li><a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/models.md">Pi custom models and Ollama configuration</a></li>

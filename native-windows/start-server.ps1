@@ -1,6 +1,6 @@
 [CmdletBinding()]
 param(
-    [string]$ModelPath = (Join-Path $env:USERPROFILE "llama-models\Huihui-Qwen3.6-35B-A3B-Claude-4.7-Opus-abliterated-ggml-model-Q4_K.gguf"),
+    [string]$ModelPath = (Join-Path $env:USERPROFILE "llama-models\Hermes3.6-35B-A3B-Uncensored-Genesis-APEX-Compact.gguf"),
     [int]$Port = 8080
 )
 
@@ -28,7 +28,7 @@ $nBatch = 1024
 $nUbatch = 1024
 $cacheTypeK = "q4_0"
 $cacheTypeV = "q4_0"
-$flashAttention = "on"
+$flashAttention = "auto"
 $cacheRam = 128
 
 # The official Windows SYCL package uses Level Zero for Intel Arc.
@@ -76,5 +76,29 @@ Write-Host "  KV cache:     $cacheTypeK / $cacheTypeV"
 Write-Host "  flash attention: $flashAttention"
 Write-Host "  mmap/mlock:   True / False"
 
-& $llamaServer @args
-if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+# Start the server as a tracked child so Ctrl+C cleanup cannot leave it behind.
+# Quote each argument because Start-Process receives one command-line string.
+$quotedArgs = $args | ForEach-Object {
+    '"' + ($_ -replace '"', '\"') + '"'
+}
+$serverProcess = $null
+$exitCode = 0
+
+try {
+    $serverProcess = Start-Process -FilePath $llamaServer `
+        -ArgumentList $quotedArgs `
+        -NoNewWindow `
+        -PassThru
+
+    Wait-Process -Id $serverProcess.Id
+    $serverProcess.Refresh()
+    $exitCode = $serverProcess.ExitCode
+}
+finally {
+    if ($serverProcess -and -not $serverProcess.HasExited) {
+        Write-Host "Stopping llama-server child process $($serverProcess.Id)..." -ForegroundColor Yellow
+        Stop-Process -Id $serverProcess.Id -Force -ErrorAction SilentlyContinue
+    }
+}
+
+exit $exitCode
