@@ -120,4 +120,4 @@ if ($LASTEXITCODE -ne 0) {
 Write-Host ""
 Write-Host "HP CPU-only setup complete." -ForegroundColor Green
 Write-Host "Model:  $modelPath"
-Write-Host "Start:  & '$PSScriptRoot\start-hp.ps1'"
+Write-Host "Start:  & '$PSScriptRoot\start.ps1'"

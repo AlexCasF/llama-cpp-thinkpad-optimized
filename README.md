@@ -5,7 +5,7 @@ matching ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 64K
 daily context.
 
 For the dual-Xeon HP Z6 G4 workstation, use the scripts in `hp-xeon/`:
-`setup-hp.ps1` once and `start-hp.ps1` for daily use. That profile downloads the original 21.7 GB
+`setup.ps1` once and `start.ps1` for daily use. That profile downloads the original 21.7 GB
 Q4_K Qwen GGUF and runs the CPU-only configuration.
 
 ## 1. One-time setup
@@ -15,10 +15,10 @@ Open PowerShell in the repository root, enter `thinkpad/`, and run:
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 cd .\thinkpad
-.\setup-thinkpad.ps1
+.\setup.ps1
 ```
 
-You can also double-click `thinkpad\setup-thinkpad.cmd`.
+You can also double-click `thinkpad\setup.cmd`.
 
 The setup script downloads the exact 17.3 GB V3 APEX Compact model, verifies it, and
 installs the pinned llama.cpp Intel SYCL runtime. Allow time for the download
@@ -54,10 +54,10 @@ Then open PowerShell in the repository root, enter `thinkpad/`, and run:
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 cd .\thinkpad
-.\start-thinkpad.ps1
+.\start.ps1
 ```
 
-Or double-click `thinkpad\start-thinkpad.cmd`.
+Or double-click `thinkpad\start.cmd`.
 
 Keep the window open while using the server. Press `Ctrl+C` to stop it.
 
@@ -87,7 +87,7 @@ http://10.10.10.1:11434/v1
 If the model is stored somewhere else, pass its path explicitly:
 
 ```powershell
-  .\start-thinkpad.ps1 -ModelPath "D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-V3-APEX-Compact.gguf"
+  .\start.ps1 -ModelPath "D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-V3-APEX-Compact.gguf"
 ```
 
 ## HP Z6 G4 CPU-only setup
@@ -97,17 +97,19 @@ From the repository root, run the one-time setup:
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
 cd .\hp-xeon
-.\setup-hp.ps1
+.\setup.ps1
 ```
+
+You can also double-click `hp-xeon\setup.cmd`.
 
 For daily use:
 
 ```powershell
 cd .\hp-xeon
-.\start-hp.ps1
+.\start.ps1
 ```
 
-You can also double-click `hp-xeon\start-hp.cmd`.
+You can also double-click `hp-xeon\start.cmd`.
 
 ## More detail
 

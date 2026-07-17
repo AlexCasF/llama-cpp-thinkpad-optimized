@@ -9,10 +9,10 @@ $runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b9986-cpu"
 $llamaServer = Join-Path $runtimeDir "llama-server.exe"
 
 if (-not (Test-Path -LiteralPath $ModelPath -PathType Leaf)) {
-    throw "The Qwen model was not found at '$ModelPath'. Run .\setup-hp.ps1 first."
+    throw "The Qwen model was not found at '$ModelPath'. Run .\setup.ps1 first."
 }
 if (-not (Test-Path -LiteralPath $llamaServer -PathType Leaf)) {
-    throw "The CPU llama.cpp runtime was not found. Run .\setup-hp.ps1 first."
+    throw "The CPU llama.cpp runtime was not found. Run .\setup.ps1 first."
 }
 
 $portOwner = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |

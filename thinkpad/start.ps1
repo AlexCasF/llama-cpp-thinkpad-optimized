@@ -13,12 +13,12 @@ if (-not (Test-Path -LiteralPath $ModelPath -PathType Leaf)) {
 The tested V3 APEX Compact production GGUF was not found:
   $ModelPath
 
-Run .\setup-thinkpad.ps1 first, or pass another model path:
-  .\start-thinkpad.ps1 -ModelPath 'D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-V3-APEX-Compact.gguf'
+Run .\setup.ps1 first, or pass another model path:
+  .\start.ps1 -ModelPath 'D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-V3-APEX-Compact.gguf'
 "@
 }
 if (-not (Test-Path -LiteralPath $llamaServer -PathType Leaf)) {
-    throw "The pinned SYCL llama.cpp runtime was not found. Run .\setup-thinkpad.ps1 first."
+    throw "The pinned SYCL llama.cpp runtime was not found. Run .\setup.ps1 first."
 }
 
 $portOwner = Get-NetTCPConnection -LocalPort $Port -State Listen -ErrorAction SilentlyContinue |
