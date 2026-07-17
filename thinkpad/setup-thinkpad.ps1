@@ -115,5 +115,5 @@ Write-Host "Runtime: $server" -ForegroundColor Green
 
 Write-Host ""
 Write-Host "Setup complete. Start the server with:" -ForegroundColor Green
-Write-Host "  .\start-thinkpad.ps1"
-Write-Host "or double-click start-thinkpad.cmd."
+Write-Host "  & '$PSScriptRoot\start-thinkpad.ps1'"
+Write-Host "or double-click '$PSScriptRoot\start-thinkpad.cmd'."
