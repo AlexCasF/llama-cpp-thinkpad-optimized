@@ -4,18 +4,22 @@ This repository runs the tested Qwen3.6 35B A3B Hermes APEX Compact model on the
 matching ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 64K
 daily context.
 
+For the dual-Xeon HP Z6 G4 workstation, use `setup-hp.ps1` once and
+`start-hp.ps1` for daily use. That profile downloads the original 21.7 GB
+Q4_K Qwen GGUF and runs the CPU-only configuration.
+
 ## 1. One-time setup
 
 Open PowerShell in this repository directory and run:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-.\setup-production.ps1
+.\setup-thinkpad.ps1
 ```
 
-You can also double-click `setup-production.cmd`.
+You can also double-click `setup-thinkpad.cmd`.
 
-The setup script downloads the exact 17.3 GB APEX Compact model, verifies it, and
+The setup script downloads the exact 17.3 GB V3 APEX Compact model, verifies it, and
 installs the pinned llama.cpp Intel SYCL runtime. Allow time for the download
 and make sure you have at least 22 GB of free disk space.
 
@@ -48,10 +52,10 @@ Then open PowerShell in the repository directory and run:
 
 ```powershell
 Set-ExecutionPolicy -Scope Process Bypass
-.\start-production.ps1
+.\start-thinkpad.ps1
 ```
 
-Or double-click `start-production.cmd`.
+Or double-click `start-thinkpad.cmd`.
 
 Keep the window open while using the server. Press `Ctrl+C` to stop it.
 
@@ -81,9 +85,9 @@ http://10.10.10.1:11434/v1
 If the model is stored somewhere else, pass its path explicitly:
 
 ```powershell
-.\start-production.ps1 -ModelPath "D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-APEX-Compact.gguf"
+  .\start-thinkpad.ps1 -ModelPath "D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-V3-APEX-Compact.gguf"
 ```
 
 ## More detail
 
-- [Complete Windows/Kali/Pi APEX 64K tutorial](docs/llama_cpp_pi_q4_64k_setup.html)
+- [Complete Windows/Kali/Pi APEX 64K tutorial](full-tutorial.html)
