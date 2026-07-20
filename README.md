@@ -1,116 +1,74 @@
-# Optimized Qwen3.6 35B APEX server for the ThinkPad Ultra 5 228V
+# Optimized llama.cpp profiles
 
-This repository runs the tested Qwen3.6 35B A3B Hermes APEX Compact model on the
-matching ThinkPad with Intel Arc 130V graphics, 32 GB shared memory, and a 64K
-daily context.
+This repository contains ready-to-run llama.cpp setups for the two target machines and two models:
 
-For the dual-Xeon HP Z6 G4 workstation, use the scripts in `hp-xeon/`:
-`setup.ps1` once and `start.ps1` for daily use. That profile downloads the original 21.7 GB
-Q4_K Qwen GGUF and runs the CPU-only configuration.
+- ThinkPad Ultra 5 228V / Intel Arc 130V / 32 GB RAM
+- HP Z6 G4 / dual Xeon Silver 4114 / Quadro P2200 / 64 GB RAM
+- Qwen 3.6 35B A3B Hermes APEX Compact
+- Huihui Ling-mini 2.0 abliterated
 
-## 1. One-time setup
+Each profile is self-contained. Run `setup` once to download the verified model and pinned llama.cpp runtime, then use `start` for everyday server startup.
 
-Open PowerShell in the repository root, enter `thinkpad/`, and run:
+## ThinkPad — Qwen 35B
 
 ```powershell
+cd .\thinkpad\qwen-35b
 Set-ExecutionPolicy -Scope Process Bypass
-cd .\thinkpad
 .\setup.ps1
-```
-
-You can also double-click `thinkpad\setup.cmd`.
-
-The setup script downloads the exact 17.3 GB V3 APEX Compact model, verifies it, and
-installs the pinned llama.cpp Intel SYCL runtime. Allow time for the download
-and make sure you have at least 22 GB of free disk space.
-
-## 2. Recommended performance mode
-
-For maximum inference speed, plug in the laptop and open **PowerShell as
-Administrator**. Run this once before a performance-sensitive session:
-
-```powershell
-$processor = "54533251-82be-4824-96c1-47b60b740d00"
-powercfg /setacvalueindex SCHEME_CURRENT $processor "36687f9e-e3a5-4dbf-b1dc-15eb381c6863" 0
-powercfg /setacvalueindex SCHEME_CURRENT $processor "36687f9e-e3a5-4dbf-b1dc-15eb381c6864" 0
-powercfg /setacvalueindex SCHEME_CURRENT $processor "36687f9e-e3a5-4dbf-b1dc-15eb381c6865" 0
-powercfg /setactive SCHEME_CURRENT
-```
-
-This sets the AC processor energy-performance preference to maximum
-performance for all processor efficiency classes. It is reversible and does
-not force the CPU to stay at full clock speed when idle. Also select
-**Performance mode** in Lenovo Vantage if that option is available; Windows
-cannot directly control the ThinkPad fan curve through `powercfg`.
-
-To return to the normal Windows preference, select **Recommended** or
-**Balanced** in Windows Settings → System → Power & battery.
-
-## 3. Everyday server startup
-
-Stop Ollama first if it is running, because this server uses port `11434`.
-Then open PowerShell in the repository root, enter `thinkpad/`, and run:
-
-```powershell
-Set-ExecutionPolicy -Scope Process Bypass
-cd .\thinkpad
 .\start.ps1
 ```
 
-Or double-click `thinkpad\start.cmd`.
+The default profile uses the tested 64K context and Intel SYCL/Arc settings.
 
-Keep the window open while using the server. Press `Ctrl+C` to stop it.
-
-The server uses the tested stable configuration:
-
-- Hermes APEX Compact model
-- 64K context
-- q4/q4 KV cache
-- 36 CPU MoE layers
-- batch 1024 / ubatch 1024
-- flash attention auto
-- mmap enabled
-
-The local API is:
-
-```text
-http://127.0.0.1:11434/v1
-```
-
-A VMware guest must use the Windows host’s VMware-LAN IP instead of
-`127.0.0.1`, for example:
-
-```text
-http://10.10.10.1:11434/v1
-```
-
-If the model is stored somewhere else, pass its path explicitly:
+## ThinkPad — Ling-mini
 
 ```powershell
-  .\start.ps1 -ModelPath "D:\models\Hermes3.6-35B-A3B-Uncensored-Genesis-V3-APEX-Compact.gguf"
-```
-
-## HP Z6 G4 CPU-only setup
-
-From the repository root, run the one-time setup:
-
-```powershell
+cd .\thinkpad\ling-mini
 Set-ExecutionPolicy -Scope Process Bypass
-cd .\hp-xeon
 .\setup.ps1
-```
-
-You can also double-click `hp-xeon\setup.cmd`.
-
-For daily use:
-
-```powershell
-cd .\hp-xeon
 .\start.ps1
 ```
 
-You can also double-click `hp-xeon\start.cmd`.
+The 9.3 GB Q4_K_S model is offloaded entirely to the Arc GPU. The default profile uses 128K context through YaRN. Optional short-context speed profiles remain available with:
 
-## More detail
+```powershell
+.\start.ps1 -Profile fast
+```
 
-- [Complete Windows/Kali/Pi APEX 64K tutorial](full-tutorial.html)
+Use `setup.cmd` and `start.cmd` for double-click wrappers.
+
+## HP Z6 G4 — Qwen 35B
+
+```powershell
+cd .\hp-xeon\qwen-35b
+Set-ExecutionPolicy -Scope Process Bypass
+.\setup.ps1
+.\start.ps1
+```
+
+This is the existing CPU-only profile for the large Qwen GGUF.
+
+## HP Z6 G4 — Ling-mini
+
+```powershell
+cd .\hp-xeon\ling-mini
+Set-ExecutionPolicy -Scope Process Bypass
+.\setup.ps1
+.\start.ps1
+```
+
+This profile uses the CUDA llama.cpp runtime, keeps Ling's eligible layers available for GPU offload, and leaves the first 14 of Ling's 20 MoE layers on the Xeon CPUs. The final six layers and shared tensors are eligible for approximately 5 GB of Quadro GPU use. The exact allocation depends on the driver and should be checked on the workstation. If CUDA runs out of memory, increase `$nCpuMoe` in `start.ps1` to 16, 18, or 19.
+
+Use `setup.cmd` and `start.cmd` for double-click wrappers.
+
+## Test the API
+
+The server listens on port `11434`:
+
+```powershell
+curl.exe http://127.0.0.1:11434/health
+```
+
+Stop Ollama or another server using that port first. Keep the server window open while using it and press `Ctrl+C` to stop it. A VMware guest should call the Windows host through its VMware-LAN IP instead of `127.0.0.1`.
+
+For power-sensitive ThinkPad testing, plug in the laptop and use Lenovo Vantage Performance mode. The complete Windows/Kali/Pi tutorial is available at [full-tutorial.html](full-tutorial.html).
