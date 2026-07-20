@@ -1,0 +1,43 @@
+{
+  "providers": {
+    "ollama-host": {
+      "baseUrl": "http://10.10.10.1:11434/v1",
+      "api": "openai-completions",
+      "apiKey": "ollama",
+      "compat": {
+        "supportsDeveloperRole": false,
+        "supportsReasoningEffort": false
+      },
+      "models": [
+        {
+          "id": "qwen3.6-35b",
+          "name": "Qwen 3.6 35B A3B Opus 4.7 64K (abliterated)",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 65536,
+          "maxTokens": 16384,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        },
+        {
+          "id": "ling-mini-2.0",
+          "name": "Ling-mini-2.0 128K (abliterated)",
+          "reasoning": false,
+          "input": ["text"],
+          "contextWindow": 131072,
+          "maxTokens": 16384,
+          "cost": {
+            "input": 0,
+            "output": 0,
+            "cacheRead": 0,
+            "cacheWrite": 0
+          }
+        }
+      ]
+    }
+  }
+}
