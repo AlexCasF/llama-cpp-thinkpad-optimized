@@ -38,8 +38,8 @@ cd llama-cpp-thinkpad-optimized</code></pre></div>
   <section class="step" id="s2"><div class="num">2</div><h2>Download and verify the exact model <span class="badge">Windows</span></h2>
     <p>Run the one-time setup script. It downloads the exact V3 APEX Compact artifact from the <a href="https://huggingface.co/LuffyTheFox/Qwen3.6-35B-A3B-Uncensored-Genesis-Hermes-V3-GGUF">Hugging Face model repository</a>, resumes interrupted downloads, verifies SHA-256, and installs the pinned official SYCL runtime.</p>
     <div class="codebox"><div class="codehead"><span>PowerShell — one-time setup</span><button class="copy">Copy</button></div><pre><code>Set-ExecutionPolicy -Scope Process Bypass
-.\thinkpad\setup.ps1</code></pre></div>
-    <p>Or double-click <code>thinkpad\setup.cmd</code>. Ensure at least 22 GB of free disk space is available. This step may take a long time; it is only performed once.</p>
+ .\thinkpad\qwen-35b\setup.ps1</code></pre></div>
+    <p>Or double-click <code>thinkpad\qwen-35b\setup.cmd</code>. Ensure at least 22 GB of free disk space is available. This step may take a long time; it is only performed once.</p>
   </section>
 
   <section class="step" id="s3"><div class="num">3</div><h2>Start the one-click llama.cpp server <span class="badge">Windows</span></h2>
@@ -52,8 +52,8 @@ powercfg /setactive SCHEME_CURRENT</code></pre></div>
     <p>Also select <strong>Performance mode</strong> in Lenovo Vantage if available. The command does not directly control the ThinkPad fan curve. To restore normal behavior, select <strong>Recommended</strong> or <strong>Balanced</strong> in Windows Settings → System → Power &amp; battery.</p>
     <p>The server listens on port 11434. Stop Ollama or another llama-server process first if it is already listening on that port.</p>
     <div class="codebox"><div class="codehead"><span>PowerShell — start production</span><button class="copy">Copy</button></div><pre><code>Set-ExecutionPolicy -Scope Process Bypass
-.\thinkpad\start.ps1</code></pre></div>
-    <p>Or double-click <code>thinkpad\start.cmd</code>. Keep the window open. The launcher uses the benchmarked stable configuration and exposes an OpenAI-compatible API at <code>http://WINDOWS_HOST_IP:11434/v1</code>.</p>
+ .\thinkpad\qwen-35b\start.ps1</code></pre></div>
+    <p>Or double-click <code>thinkpad\qwen-35b\start.cmd</code>. Keep the window open. The launcher uses the benchmarked stable configuration and exposes an OpenAI-compatible API at <code>http://WINDOWS_HOST_IP:11434/v1</code>.</p>
     <div class="codebox"><div class="codehead"><span>Second Windows PowerShell window — verify</span><button class="copy">Copy</button></div><pre><code>Invoke-RestMethod http://127.0.0.1:11434/health
 Invoke-RestMethod http://127.0.0.1:11434/v1/models | ConvertTo-Json -Depth 6</code></pre></div>
   </section>
@@ -258,9 +258,9 @@ find "$HOME/.pi/agent/skills/kali-pentest" -maxdepth 3 -type f | sort</code></pr
 
   <section class="step" id="usage"><div class="num">✓</div><h2>Usage after setup</h2>
     <p>The setup is persistent. For normal daily use, start the Windows server and then start Pi inside Kali.</p>
-    <h3>1. On the Windows host</h3><p>Double-click <code>thinkpad\start.cmd</code>, or run:</p>
+    <h3>1. On the Windows host</h3><p>Double-click <code>thinkpad\qwen-35b\start.cmd</code>, or run:</p>
     <div class="codebox"><div class="codehead"><span>Windows PowerShell</span><button class="copy">Copy</button></div><pre><code>cd C:\path\to\llama-cpp-thinkpad-optimized
-.\thinkpad\start.ps1</code></pre></div>
+ .\thinkpad\qwen-35b\start.ps1</code></pre></div>
     <h3>2. Inside Kali</h3>
     <p>Change into the directory Pi should be allowed to inspect and modify, then start Pi:</p>
     <div class="codebox"><div class="codehead"><span>Kali terminal</span><button class="copy">Copy</button></div><pre><code>cd /path/to/your/desired/working-directory
@@ -272,7 +272,7 @@ pi</code></pre></div>
     <h3>Port 11434 is already in use</h3>
     <div class="codebox"><div class="codehead"><span>Windows PowerShell</span><button class="copy">Copy</button></div><pre><code>Get-NetTCPConnection -LocalPort 11434 -State Listen
 Get-Process ollama -ErrorAction SilentlyContinue | Stop-Process -Force
-.\thinkpad\start.ps1</code></pre></div>
+ .\thinkpad\qwen-35b\start.ps1</code></pre></div>
     <h3>Kali cannot connect</h3>
     <div class="codebox"><div class="codehead"><span>Kali</span><button class="copy">Copy</button></div><pre><code>ping -c 2 "$WINDOWS_HOST_IP"
 nc -vz "$WINDOWS_HOST_IP" 11434
@@ -292,7 +292,7 @@ curl -v "http://${WINDOWS_HOST_IP}:11434/v1/models"</code></pre></div>
     <li><a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/models.md">Pi custom models and Ollama configuration</a></li>
     <li><a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/settings.md">Pi settings, retries, compaction, and HTTP idle timeout</a></li>
     <li><a href="https://github.com/earendil-works/pi/blob/main/packages/coding-agent/docs/skills.md">Pi skills locations and security warning</a></li>
-    <li><a href="https://lobehub.com/skills/tzf1003-chatkali?activeTab=installation">ChatKali skill on LobeHub</a></li>
+    <li><a href="https://github.com/x-glacier/kali-pentest">x-glacier/kali-pentest</a></li>
   </ul></section>
   <footer>Prepared July 2026 · Copy buttons require JavaScript enabled in the browser.</footer>
 </div>
