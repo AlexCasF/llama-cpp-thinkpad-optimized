@@ -11,7 +11,7 @@ $ProgressPreference = "SilentlyContinue"
 # Profile and runtime configuration.
 $profileName = "HP Z6 G4 / Ling-mini 2.0 hybrid / 128K"
 $modelAlias = "ling-mini-2.0-hp"
-$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b9986-cuda124"
+$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b10075-cuda124"
 $llamaServer = Join-Path $runtimeDir "llama-server.exe"
 $backendName = "NVIDIA CUDA 12.4 / Quadro P2200"
 $useLevelZero = $false
@@ -30,6 +30,7 @@ $flashAttention = "auto"
 $parallel = 1
 $cacheRam = 256
 $cacheReuse = 256
+$ctxCheckpoints = 32
 $timeout = 86400
 $mmapEnabled = $true
 $cachePromptEnabled = $true
@@ -78,6 +79,7 @@ function Get-FeatureArgs {
         "--parallel", "$parallel",
         "--cache-ram", "$cacheRam",
         "--cache-reuse", "$cacheReuse",
+        "--ctx-checkpoints", "$ctxCheckpoints",
         "--timeout", "$timeout"
     )
     if ($cachePromptEnabled) { $featureArgs += "--cache-prompt" }
@@ -126,6 +128,7 @@ try {
     Write-ServerLog "Threads: $nThreads decode / $nThreadsBatch batch"
     Write-ServerLog "Batch: $nBatch / ubatch $nUbatch"
     Write-ServerLog "KV cache: $cacheTypeK / $cacheTypeV"
+    Write-ServerLog "Prompt cache: $(if ($cachePromptEnabled) { 'enabled' } else { 'disabled' })"
     Write-ServerLog "Flash attention: $flashAttention"
     Write-ServerLog "mmap: $(if ($mmapEnabled) { 'enabled' } else { 'disabled' })"
     Write-ServerLog "Keep this window open. Press Ctrl+C to stop the server." Yellow

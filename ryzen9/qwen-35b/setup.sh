@@ -11,12 +11,12 @@ expected_model_size=17327724672
 expected_model_sha256="50594a0b81d4c951e6925b0e4e6804d2d9d3ce060cabfdf3c697e552415fed0f"
 model_size_gib="17.3"
 
-build_tag="b9986"
+build_tag="b10075"
 runtime_root="${LLAMA_RUNTIME_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/llama-server-kit/runtime}"
 runtime_dir="$runtime_root/${build_tag}-vulkan"
 runtime_archive="$runtime_root/llama-${build_tag}-bin-ubuntu-vulkan-x64.tar.gz"
 runtime_url="https://github.com/ggml-org/llama.cpp/releases/download/${build_tag}/$(basename "$runtime_archive")"
-expected_runtime_sha256="6ec4c41dbb17590cf0dfbb21ccb842b8e235dc72d9e9556c1db9fe3bc390e768"
+expected_runtime_sha256="d0b000ed9e6369b25312bba682b02d4d5b0f1a2b911536509f423bfc9c1a52d3"
 
 log() { printf '[setup] %s\n' "$*"; }
 die() { trap - ERR; printf '[setup] FAILED: %s\n' "$*" >&2; exit 1; }

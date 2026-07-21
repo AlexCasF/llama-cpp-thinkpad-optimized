@@ -1,7 +1,7 @@
 [CmdletBinding()]
 param(
     [string]$ModelDirectory = (Join-Path $env:USERPROFILE "llama-models"),
-    [string]$BuildTag = "b9986"
+    [string]$BuildTag = "b10075"
 )
 
 $ErrorActionPreference = "Stop"

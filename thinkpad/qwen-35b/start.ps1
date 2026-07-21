@@ -10,7 +10,7 @@ $ProgressPreference = "SilentlyContinue"
 # Profile and runtime configuration.
 $profileName = "ThinkPad / Qwen 3.6 35B APEX Compact / 64K"
 $modelAlias = "qwen3.6-35b"
-$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b9986"
+$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b10075"
 $llamaServer = Join-Path $runtimeDir "llama-server.exe"
 $backendName = "Intel SYCL / Level Zero"
 $useLevelZero = $true

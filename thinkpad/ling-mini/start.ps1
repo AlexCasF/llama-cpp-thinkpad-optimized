@@ -14,7 +14,7 @@ $ProgressPreference = "SilentlyContinue"
 # Profile and runtime configuration.
 $profileName = "ThinkPad / Ling-mini 2.0 / $Profile"
 $modelAlias = "ling-mini-2.0"
-$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b9986"
+$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b10075"
 $llamaServer = Join-Path $runtimeDir "llama-server.exe"
 $backendName = "Intel SYCL / Level Zero"
 $useLevelZero = $true
