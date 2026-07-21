@@ -61,6 +61,32 @@ This profile uses the CUDA llama.cpp runtime, keeps Ling's eligible layers avail
 
 Use `setup.cmd` and `start.cmd` for double-click wrappers.
 
+## Ryzen 9 8945HS — Qwen 35B
+
+On the Fedora Linux Ryzen 9 / Radeon 780M / 64 GB machine:
+
+```bash
+sudo dnf install curl tar coreutils vulkan-loader mesa-vulkan-drivers vulkan-tools
+
+cd ryzen9/qwen-35b
+bash ./setup.sh
+bash ./start.sh
+```
+
+This uses the official Linux Vulkan runtime, 64K context, q4/q4 KV cache, and Ryzen-tuned 8/16 decode and prompt threads.
+
+## Ryzen 9 8945HS — Ling-mini
+
+```bash
+sudo dnf install curl tar coreutils vulkan-loader mesa-vulkan-drivers vulkan-tools
+
+cd ryzen9/ling-mini
+bash ./setup.sh
+bash ./start.sh
+```
+
+This uses the Radeon 780M through Vulkan with all Ling layers offloaded, 128K YaRN context, q4/q4 KV cache, and Ryzen-tuned 8/16 decode and prompt threads. If the Radeon is not `Vulkan0`, set `LLAMA_DEVICE=Vulkan1` before starting.
+
 ## Test the API
 
 The server listens on port `11434`:

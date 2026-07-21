@@ -1,7 +1,8 @@
 [CmdletBinding()]
 param(
     [string]$ModelPath = (Join-Path $env:USERPROFILE "llama-models\Huihui-Ling-mini-2.0-abliterated.Q4_K_S.gguf"),
-    [int]$Port = 11434
+    [int]$Port = 11434,
+    [string]$Device = ""
 )
 
 $ErrorActionPreference = "Stop"
@@ -36,7 +37,7 @@ $continuousBatchingEnabled = $true
 $jinjaEnabled = $true
 $webUiEnabled = $false
 $metricsEnabled = $true
-$deviceArgs = @("--device", "CUDA0")
+$deviceArgs = if ($Device) { @("--device", $Device) } else { @() }
 $numaArgs = @("--numa", "distribute")
 $fitArgs = @()
 $ropeArgs = @(
@@ -117,6 +118,11 @@ try {
     Write-ServerLog "Backend: $backendName"
     Write-ServerLog "Context: $ctxSize"
     Write-ServerLog "GPU layers: $nGpuLayers / CPU MoE layers: $nCpuMoe (targeting ~5 GB VRAM)"
+    if ($Device) {
+        Write-ServerLog "Device: $Device (explicit)"
+    } else {
+        Write-ServerLog "Device: automatic (single CUDA adapter)"
+    }
     Write-ServerLog "Threads: $nThreads decode / $nThreadsBatch batch"
     Write-ServerLog "Batch: $nBatch / ubatch $nUbatch"
     Write-ServerLog "KV cache: $cacheTypeK / $cacheTypeV"
