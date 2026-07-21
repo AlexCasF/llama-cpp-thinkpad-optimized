@@ -16,7 +16,7 @@ The starting profile is intentionally conservative:
 | NUMA | distribute | Uses both Xeon sockets |
 | mmap | enabled | Keeps CPU-resident expert weights demand-paged |
 
-The start script applies YaRN from Ling's native 32K base and overrides `bailingmoe2.context_length` so the slot is actually initialized at 131,072 tokens.
+The start script applies YaRN from Ling's native 32K base and overrides `bailingmoe2.context_length` so the slot is actually initialized at 131,072 tokens. Device selection is automatic by default; this avoids depending on a backend-specific CUDA device label on different driver/runtime combinations.
 
 This is a hardware-targeted starting profile, not a benchmarked result on the HP workstation. The exact CUDA allocation depends on the Quadro driver and llama.cpp's tensor sizes. If CUDA reports out-of-memory, increase `$nCpuMoe` in `start.ps1` to 16, 18, or 19; that moves more expert weights to CPU. If the GPU has headroom, 14 is the recommended starting value for using the workstation's full 5 GB VRAM budget.
 
@@ -31,6 +31,12 @@ Set-ExecutionPolicy -Scope Process Bypass
 ```
 
 Or double-click `setup.cmd` once and `start.cmd` for daily use. Setup verifies both the GGUF and the CUDA runtime, then lists the detected CUDA devices.
+
+The server automatically uses the workstation's CUDA adapter. If a machine has multiple CUDA adapters and needs an explicit selection, pass the exact name shown by the setup device listing, for example:
+
+```powershell
+.\start.ps1 -Device CUDA0
+```
 
 The server listens on `http://127.0.0.1:11434`. Test it from another PowerShell window with:
 
