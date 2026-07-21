@@ -10,7 +10,7 @@ $ProgressPreference = "SilentlyContinue"
 # Profile and runtime configuration.
 $profileName = "HP Z6 G4 / Qwen 3.6 35B CPU-only / 64K"
 $modelAlias = "qwen3.6-35b-hp"
-$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b9986-cpu"
+$runtimeDir = Join-Path $env:LOCALAPPDATA "llama-server-kit\runtime\b10075-cpu"
 $llamaServer = Join-Path $runtimeDir "llama-server.exe"
 $backendName = "CPU / dual Xeon Silver 4114"
 $useLevelZero = $false

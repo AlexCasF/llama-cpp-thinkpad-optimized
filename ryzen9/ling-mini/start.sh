@@ -5,7 +5,7 @@ model_path="${LLAMA_MODEL_PATH:-${LLAMA_MODEL_DIR:-$HOME/llama-models}/Huihui-Li
 port="${LLAMA_PORT:-11434}"
 vulkan_device="${LLAMA_DEVICE:-Vulkan0}"
 runtime_root="${LLAMA_RUNTIME_ROOT:-${XDG_DATA_HOME:-$HOME/.local/share}/llama-server-kit/runtime}"
-runtime_dir="$runtime_root/b9986-vulkan"
+runtime_dir="$runtime_root/b10075-vulkan"
 
 profile_name="Ryzen 9 8945HS / Ling-mini 2.0 / 128K"
 model_alias="ling-mini-2.0-ryzen9"

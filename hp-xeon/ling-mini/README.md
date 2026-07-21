@@ -16,7 +16,7 @@ The starting profile is intentionally conservative:
 | NUMA | distribute | Uses both Xeon sockets |
 | mmap | enabled | Keeps CPU-resident expert weights demand-paged |
 
-The start script applies YaRN from Ling's native 32K base and overrides `bailingmoe2.context_length` so the slot is actually initialized at 131,072 tokens. Device selection is automatic by default; this avoids depending on a backend-specific CUDA device label on different driver/runtime combinations.
+The start script applies YaRN from Ling's native 32K base and overrides `bailingmoe2.context_length` so the slot is actually initialized at 131,072 tokens. Device selection is automatic by default; this avoids depending on a backend-specific CUDA device label on different driver/runtime combinations. Prompt caching remains enabled so repeated prompts can reuse their common prefix; the profile now uses the newer b10075 runtime, which includes a prompt-cache state-ownership refactor.
 
 This is a hardware-targeted starting profile, not a benchmarked result on the HP workstation. The exact CUDA allocation depends on the Quadro driver and llama.cpp's tensor sizes. If CUDA reports out-of-memory, increase `$nCpuMoe` in `start.ps1` to 16, 18, or 19; that moves more expert weights to CPU. If the GPU has headroom, 14 is the recommended starting value for using the workstation's full 5 GB VRAM budget.
 
@@ -51,5 +51,5 @@ Stop Ollama or another llama server first if port 11434 is occupied. Keep the se
 - Model: https://huggingface.co/mradermacher/Huihui-Ling-mini-2.0-abliterated-GGUF
 - File: `Huihui-Ling-mini-2.0-abliterated.Q4_K_S.gguf`
 - SHA-256: `f80fb22a69b33c019a7e127bd8aa2ee9607b885b1a9dccb9f7d00e9fec3274d2`
-- Runtime: `llama-b9986-bin-win-cuda-12.4-x64.zip`
-- Runtime SHA-256: `0feaaac317856ac7c33131edb95851ef99731a7af97a7ee4a856b76a828ad1c2`
+- Runtime: `llama-b10075-bin-win-cuda-12.4-x64.zip`
+- Runtime SHA-256: `acb782eb7d82b7aefaab4ea4f92f84793d11fdddacf888299ef3af9a63054744`

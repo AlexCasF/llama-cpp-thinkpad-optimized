@@ -71,5 +71,5 @@ The default keeps `--mmap` enabled and CPU MoE offload at zero because this mode
 - Model repository: https://huggingface.co/mradermacher/Huihui-Ling-mini-2.0-abliterated-GGUF
 - Selected file: `Huihui-Ling-mini-2.0-abliterated.Q4_K_S.gguf`
 - SHA-256: `f80fb22a69b33c019a7e127bd8aa2ee9607b885b1a9dccb9f7d00e9fec3274d2`
-- Runtime: official llama.cpp Windows SYCL release `b9986`
+- Runtime: official llama.cpp Windows SYCL release `b10075`
 - Ling reference: https://huggingface.co/inclusionAI/Ling-mini-2.0
